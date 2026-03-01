@@ -288,10 +288,12 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>s', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 
-      -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
+      -- Search files starting from home directory
+      vim.keymap.set('n', '<leader>f', function() builtin.find_files { cwd = vim.fn.expand '~' } end, { desc = '[S]earch [F]iles from Home' })
+
+      -- Live grep starting from home directory
+      vim.keymap.set('n', '<leader>s', function() builtin.live_grep { cwd = vim.fn.expand '~' } end, { desc = '[S]earch by [G]rep from Home' }) -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
       -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
